@@ -1,0 +1,30 @@
+
+server:
+  port: 9001
+  #port: 0 ?? ??? ??? ?????? ??
+  #?? ?? ??? ????? ??? ? ?? ????ID? ?????
+
+  spring:
+    application:
+      name: test-user-service
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    instance:
+      instance-id:${spring.application.name}:${spring.applcation.instance_id:${random.value}}
+
+
+#actuator
+management:
+  endpoints:
+    web:
+      base-path: /management
+      exposure:
+        include: health, info, shutdown
+  endpoint:
+    shutdown:
+      enabled: true
