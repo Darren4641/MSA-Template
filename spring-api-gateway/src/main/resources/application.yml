@@ -1,0 +1,35 @@
+
+server:
+  port: 8080
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+#  instance:
+#    instance-id: ${spring.application.name}:${server.port}
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: first-service
+          uri: http://localhost:8001/
+          predicates:
+            - Path=/first-service/**
+        - id: second-service
+          uri: http://localhost:8002/
+          predicates:
+            - Path=/second-service/**
+
+
+
+
+
+
+
+

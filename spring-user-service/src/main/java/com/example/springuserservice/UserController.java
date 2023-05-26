@@ -1,21 +1,15 @@
-package com.example.controller;
+package com.example.springuserservice;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/first-service")
 public class UserController {
 
-    @RequestMapping("/")
-    public String getInfo() {
-        return "User-Service";
+    @GetMapping("/do")
+    public String doIt() {
+        return "test";
     }
-
-    @GetMapping("/welcome")
-    public String doUser() {
-        return "User-doIt";
-    }
-
 }
