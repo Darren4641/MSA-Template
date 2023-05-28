@@ -4,8 +4,8 @@ server:
 
 eureka:
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
 #  instance:
@@ -18,13 +18,19 @@ spring:
     gateway:
       routes:
         - id: first-service
-          uri: http://localhost:8001/
+          uri: lb://USER-SERVICE
           predicates:
             - Path=/first-service/**
+          filters:
+            - AddRequestHeader=first-request, first-request-header2
+            - AddResponseHeader=first-response, first-response-header2
         - id: second-service
           uri: http://localhost:8002/
           predicates:
             - Path=/second-service/**
+          filters:
+            - AddRequestHeader=second-request, second-request-header2
+            - AddResponseHeader=second-response, second-response-header2
 
 
 
