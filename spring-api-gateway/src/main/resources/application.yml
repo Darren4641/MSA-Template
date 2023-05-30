@@ -8,8 +8,6 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
-#  instance:
-#    instance-id: ${spring.application.name}:${server.port}
 
 spring:
   application:
@@ -31,7 +29,18 @@ spring:
           filters:
             - AddRequestHeader=second-request, second-request-header2
             - AddResponseHeader=second-response, second-response-header2
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+        show_sql: true
+        use_sql_comments: true
 
+security:
+  access:
+    key: custom_access
+  refresh:
+    key: custom_refresh
 
 
 
