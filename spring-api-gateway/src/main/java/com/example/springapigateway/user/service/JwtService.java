@@ -31,7 +31,7 @@ public class JwtService {
     private final MemberRepository MemberRepository;
 
     @Transactional
-    public CustomResponse login(ServerHttpRequest request, MemberDto memberDto, String userAgent) {
+    public CustomResponse login(HttpServletRequest request, MemberDto memberDto, String userAgent) {
 
         CustomResponse.ResponseMap result = null;
         try {
@@ -56,7 +56,6 @@ public class JwtService {
 
         } catch (Exception e) {
             e.printStackTrace();
-            request.set
             request.setAttribute("exception", "UsernameOrPasswordNotFoundException");
             throw new AuthenticationCustomException(AuthCode.UsernameOrPasswordNotFoundException);
         }
