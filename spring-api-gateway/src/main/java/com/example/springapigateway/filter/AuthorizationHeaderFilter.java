@@ -14,14 +14,17 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.util.Base64;
+
 @Slf4j
 @Component
 public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<AuthorizationHeaderFilter.Config> {
-    private final Environment environment;
-    public AuthorizationHeaderFilter(Environment environment) {
+    private String accessSecretKey = "test";
+
+    public AuthorizationHeaderFilter() {
         super(Config.class);
-        this.environment = environment;
     }
+
     @Override
     public GatewayFilter apply(AuthorizationHeaderFilter.Config config) {
         return (exchange, chain) -> {
@@ -33,16 +36,18 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
             return chain.filter(exchange);
         };
     }
+
     private Mono<Void> onError(ServerWebExchange exchange, String err, HttpStatus httpStatus) {
         ServerHttpResponse response = exchange.getResponse();
         response.setStatusCode(httpStatus);
         log.error(err);
         return response.setComplete();
     }
+
     private boolean isJwtValid(String jwt) {
         String subject = null;
         try {
-            subject = Jwts.parser().setSigningKey(environment.getProperty("token.secret"))
+            subject = Jwts.parser().setSigningKey(Base64.getEncoder().encodeToString(accessSecretKey.getBytes()))
                     .parseClaimsJws(jwt).getBody()
                     .getSubject();
         } catch (Exception ex) {

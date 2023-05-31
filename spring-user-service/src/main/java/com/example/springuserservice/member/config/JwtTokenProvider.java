@@ -74,16 +74,6 @@ public class JwtTokenProvider {
         return Jwts.parser().setSigningKey(accessSecretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
-    // 토큰 유효성, 만료일자 확인
-    public boolean validateToken(String jwtToken) {
-        try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(accessSecretKey).parseClaimsJws(jwtToken);
-            return !claims.getBody().getExpiration().before(new Date());
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
     // Request의 Header에서 token 값 가져오기
     public String getAccessToken(HttpServletRequest request) {
         return request.getHeader("Authorization");

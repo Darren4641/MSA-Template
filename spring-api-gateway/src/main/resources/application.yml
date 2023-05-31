@@ -21,13 +21,13 @@ spring:
             - Path=/first-service/**
           filters:
             - RemoveRequestHeader=Cookie
-            - RewritePath=/first-service/(?<segment>.*), /$\{segment}
+            #- RewritePath=/first-service/(?<segment>.*), /$\{segment}
         - id: second-service
-          uri: http://localhost:8002/
+          uri: lb://POST-SERVICE
           predicates:
             - Path=/second-service/**
           filters:
             - RemoveRequestHeader=Cookie
-            - RewritePath=/second-service/(?<segment>.*), /$\{segment}
+            #- RewritePath=/second-service/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
 

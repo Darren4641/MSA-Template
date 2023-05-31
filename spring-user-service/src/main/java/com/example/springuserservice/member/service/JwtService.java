@@ -43,15 +43,21 @@ public class JwtService {
                 .refreshToken(token.getRefreshToken())
                 .userAgent(userAgent).build();
 
-        Optional<RefreshToken> tokenOptional = Optional.of(refreshTokenRepository.findByKeyId(email)
-                .orElse(refreshTokenRepository.save(
-                        RefreshToken.builder()
-                                .keyId(token.getKey())
-                                .refreshToken(token.getRefreshToken())
-                                .userAgent(userAgent).build())));
+        Optional<RefreshToken> tokenOptional = refreshTokenRepository.findByKeyId(email);
 
-        if(!tokenOptional.get().getUserAgent().equals(userAgent))
-            refreshTokenRepository.save(refreshToken.update(token.getRefreshToken(), token.getKey(), userAgent));
+        //refreshToken이 있는지 검사
+        if(tokenOptional.isEmpty()) {
+            refreshTokenRepository.save(
+                    RefreshToken.builder()
+                            .keyId(token.getKey())
+                            .refreshToken(token.getRefreshToken())
+                            .userAgent(userAgent).build());
+        }else {
+            //refreshToken이 있으면, 업데이트
+            refreshToken.update(tokenOptional.get().getRefreshToken(), tokenOptional.get().getUserAgent());
+
+        }
+
 
         return token;
     }

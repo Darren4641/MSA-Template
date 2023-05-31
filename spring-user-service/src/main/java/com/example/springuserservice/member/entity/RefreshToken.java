@@ -32,10 +32,8 @@ public class RefreshToken {
         this.userAgent = userAgent;
     }
 
-    public RefreshToken update(String refreshToken, String keyId, String userAgent) {
+    public void update(String refreshToken, String userAgent) {
         this.refreshToken = refreshToken;
-        this.keyId = keyId;
-        this.userAgent = userAgent;
-        return this;
+        this.userAgent = refreshToken;
     }
 }
