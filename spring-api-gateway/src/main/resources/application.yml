@@ -29,22 +29,4 @@ spring:
           filters:
             - AddRequestHeader=second-request, second-request-header2
             - AddResponseHeader=second-response, second-response-header2
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MariaDBDialect
-        show_sql: true
-        use_sql_comments: true
-
-security:
-  access:
-    key: custom_access
-  refresh:
-    key: custom_refresh
-
-
-
-
-
-
 

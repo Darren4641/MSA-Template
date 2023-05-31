@@ -13,8 +13,7 @@ public class MemberDtoTest {
 
         MemberDto dto = MemberDto.builder()
                 .email(email)
-                .password(password)
-                .role(Role.USER).build();
+                .password(password).build();
 
         assertThat(dto.getEmail()).isEqualTo(email);
         assertThat(dto.getPassword()).isEqualTo(password);
