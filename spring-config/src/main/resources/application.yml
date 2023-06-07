@@ -10,4 +10,5 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/Darren4641/spring-config-server.git
+          uri: https://github.com/Darren4641/spring-config-yml
+          default-label: main
