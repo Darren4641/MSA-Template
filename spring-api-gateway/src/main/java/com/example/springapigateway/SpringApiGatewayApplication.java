@@ -1,6 +1,7 @@
 package com.example.springapigateway;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
@@ -17,5 +18,10 @@ public class SpringApiGatewayApplication {
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity security) {
         return security.csrf().disable().build();
+    }
+
+    @Bean
+    public InMemoryHttpTraceRepository httpTraceRepository() {
+        return new InMemoryHttpTraceRepository();
     }
 }
