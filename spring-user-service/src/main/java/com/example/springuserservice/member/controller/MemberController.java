@@ -5,6 +5,7 @@ import com.example.springuserservice.member.dto.MemberDto;
 import com.example.springuserservice.member.service.JwtService;
 import com.example.springuserservice.member.service.MemberService;
 import com.example.springuserservice.member.service.MemberServiceImpl;
+import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +15,16 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/first-service")
 public class MemberController {
+    private final Environment environment;
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
-    public MemberController(MemberServiceImpl memberService, PasswordEncoder passwordEncoder, JwtService jwtService) {
+    public MemberController(MemberServiceImpl memberService, PasswordEncoder passwordEncoder, JwtService jwtService, Environment environment) {
         this.memberService = memberService;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
+        this.environment = environment;
     }
 
     @PostMapping("/signup")
@@ -34,4 +37,11 @@ public class MemberController {
     public CustomResponse login(HttpServletRequest request, @RequestBody MemberDto memberDto, @RequestHeader("User-Agent") String userAgent) {
         return new CustomResponse.ResponseMap(200, "data", jwtService.login(request, memberDto, userAgent));
     }
+
+    @GetMapping("/health-check")
+    public String healthCheck() {
+        return String.format("secret : %s",
+                environment.getProperty("secret"));
+    }
+
 }
