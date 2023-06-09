@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 
@@ -20,6 +19,17 @@ public class PostServiceImpl implements PostService {
 
         return postRepository.findAll().stream()
                 .map(e -> e.toDto()).collect(Collectors.toList());
+    }
+
+    @Override
+    public PostDto save(PostDto postDto) {
+        return postRepository.save(postDto.toEntity()).toDto();
+    }
+
+    @Override
+    public List<PostDto> getPostByWriter(String writer) {
+        return postRepository.findByWriter(writer).stream()
+                .map(post -> post.toDto()).collect(Collectors.toList());
     }
 
 

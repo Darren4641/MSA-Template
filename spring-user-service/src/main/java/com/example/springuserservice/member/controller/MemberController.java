@@ -38,6 +38,12 @@ public class MemberController {
         return new CustomResponse.ResponseMap(200, "data", jwtService.login(request, memberDto, userAgent));
     }
 
+
+    @GetMapping("/info/{userId}")
+    public CustomResponse getUser(@PathVariable("userId") Long userId) {
+        return new CustomResponse.ResponseMap(200, "data", memberService.getMemberByUserId(userId));
+    }
+
     @GetMapping("/health-check")
     public String healthCheck() {
         return String.format("secret : %s",

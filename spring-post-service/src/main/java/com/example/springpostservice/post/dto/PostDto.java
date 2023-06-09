@@ -14,20 +14,20 @@ public class PostDto {
 
     private String title;
     private String content;
-    private String wrtier;
+    private String writer;
 
     @Builder
     public PostDto(String title, String content, String writer) {
         this.title = title;
         this.content = content;
-        this.wrtier = writer;
+        this.writer = writer;
     }
 
     public Post toEntity() {
         return Post.builder()
                 .title(title)
                 .content(content)
-                .writer(wrtier).build();
+                .writer(writer).build();
     }
 
 }
