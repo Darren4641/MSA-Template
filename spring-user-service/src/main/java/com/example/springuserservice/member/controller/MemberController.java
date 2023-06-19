@@ -27,19 +27,19 @@ public class MemberController {
         this.environment = environment;
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/user/signup")
     public CustomResponse signup(@RequestBody MemberDto memberDto) {
         memberDto.setPassword(passwordEncoder.encode(memberDto.getPassword()));
         return new CustomResponse.ResponseMap(200, "data", memberService.create(memberDto));
     }
 
-    @PostMapping("/login")
+    @PostMapping("/user/login")
     public CustomResponse login(HttpServletRequest request, @RequestBody MemberDto memberDto, @RequestHeader("User-Agent") String userAgent) {
         return new CustomResponse.ResponseMap(200, "data", jwtService.login(request, memberDto, userAgent));
     }
 
 
-    @GetMapping("/info/{userId}")
+    @GetMapping("/user/info/{userId}")
     public CustomResponse getUser(@PathVariable("userId") Long userId) {
         return new CustomResponse.ResponseMap(200, "data", memberService.getMemberByUserId(userId));
     }

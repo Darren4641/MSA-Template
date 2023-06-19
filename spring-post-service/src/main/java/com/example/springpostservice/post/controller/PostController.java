@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/second-service")
+@RequestMapping("/second-service/post")
 public class PostController {
     private final PostService postService;
 

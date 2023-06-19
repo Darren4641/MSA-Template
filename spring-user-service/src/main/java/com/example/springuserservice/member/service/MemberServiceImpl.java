@@ -3,14 +3,12 @@ package com.example.springuserservice.member.service;
 import com.example.springuserservice.member.dto.MemberDto;
 import com.example.springuserservice.member.dto.PostDto;
 import com.example.springuserservice.member.entity.Member;
+import com.example.springuserservice.member.feign.PostServiceClient;
 import com.example.springuserservice.member.handler.CustomException;
 import com.example.springuserservice.member.handler.ErrorCode;
 import com.example.springuserservice.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,7 +26,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
     private final Environment environment;
     private final RestTemplate restTemplate;
     private final MemberRepository memberRepository;
-
+    private final PostServiceClient postServiceClient;
 
     @Override
     @Transactional
@@ -53,13 +51,9 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
                 () -> new CustomException(ErrorCode.NOTFOUND)
         ).toDto();
 
-        ResponseEntity<List<PostDto>> postResponse = restTemplate.exchange(
-                getPostRequestUrl(memberDto.getEmail()),
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<PostDto>>() {}
-        );
-        memberDto.setPosts(postResponse.getBody());
+        List<PostDto> postDtos = postServiceClient.getPosts(memberDto.getEmail());
+
+        memberDto.setPosts(postDtos);
 
         return memberDto;
     }
