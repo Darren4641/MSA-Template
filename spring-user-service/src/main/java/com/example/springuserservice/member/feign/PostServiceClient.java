@@ -9,6 +9,7 @@ import java.util.List;
 
 @FeignClient(name = "post-service")
 public interface PostServiceClient {
-    @GetMapping("/second-service/post/{writer}/posts")
+    @GetMapping("/invalid-path/{writer}")
+    //@GetMapping("/second-service/post/{writer}/posts")
     List<PostDto> getPosts(@PathVariable String writer);
 }

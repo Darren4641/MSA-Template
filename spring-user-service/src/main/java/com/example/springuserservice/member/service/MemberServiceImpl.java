@@ -7,6 +7,7 @@ import com.example.springuserservice.member.feign.PostServiceClient;
 import com.example.springuserservice.member.handler.CustomException;
 import com.example.springuserservice.member.handler.ErrorCode;
 import com.example.springuserservice.member.repository.MemberRepository;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +25,6 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService, UserDetailsService {
     private final Environment environment;
-    private final RestTemplate restTemplate;
     private final MemberRepository memberRepository;
     private final PostServiceClient postServiceClient;
 
@@ -52,7 +52,6 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
         ).toDto();
 
         List<PostDto> postDtos = postServiceClient.getPosts(memberDto.getEmail());
-
         memberDto.setPosts(postDtos);
 
         return memberDto;
